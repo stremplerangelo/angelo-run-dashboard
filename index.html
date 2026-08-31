@@ -6,235 +6,55 @@
 <title>ANGELO Run Lab</title>
 <style>
 :root{--bg:#090b0e;--card:#14181e;--card2:#1a2028;--text:#f7f8fa;--muted:#9da6b3;--accent:#ff9f0a;--good:#30d158;--line:#2b323c}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
-.wrap{max-width:1400px;margin:auto;padding:20px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.title{font-weight:900;font-size:clamp(24px,4vw,44px)}
-.status{color:var(--muted);font-size:13px;margin-top:4px}
-.buttons{display:flex;gap:8px;flex-wrap:wrap}
-button,input{font:inherit;border-radius:14px;border:1px solid var(--line);background:#202630;color:#fff;padding:11px 13px}
-button{font-weight:800;cursor:pointer}
-.primary{background:var(--accent);color:#111;border:none}
-.good{background:var(--good);color:#071108;border:none}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:17px;min-height:130px}
-.hero{grid-column:span 5;min-height:255px}
-.chartcard{grid-column:span 7;min-height:255px}
-.small{grid-column:span 3}
-.mid{grid-column:span 4}
-.label{font-size:13px;color:var(--muted);font-weight:800;letter-spacing:.05em;text-transform:uppercase}
-.value{font-weight:900;line-height:.9;margin-top:14px;font-size:clamp(52px,8vw,100px)}
-.metric{font-weight:900;margin-top:11px;font-size:clamp(30px,4.7vw,58px)}
-.unit{font-size:.34em;color:var(--muted);font-weight:800;margin-left:6px}
-.zone{display:inline-block;margin-top:12px;padding:7px 11px;border-radius:999px;background:#252c35;font-weight:900}
-.progress{height:9px;border-radius:999px;background:#262d36;overflow:hidden;margin-top:14px}
-.bar{height:100%;width:0;background:var(--accent);transition:.2s}
-canvas{width:100%;height:180px;background:#0f1317;border-radius:14px;margin-top:10px}
-.note{color:var(--muted);font-size:12px;line-height:1.4;margin-top:9px}
-.sources{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.tag{font-size:11px;padding:6px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
-.tag.on{color:#fff;border-color:#53606e}
-@media(max-width:900px){.hero,.chartcard{grid-column:span 12}.small{grid-column:span 6}.mid{grid-column:span 6}}
-@media(max-width:560px){.small,.mid{grid-column:span 12}}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}.wrap{max-width:1400px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.title{font-weight:900;font-size:clamp(24px,4vw,44px)}.status{color:var(--muted);font-size:13px;margin-top:4px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,input{font:inherit;border-radius:14px;border:1px solid var(--line);background:#202630;color:#fff;padding:11px 13px}button{font-weight:800;cursor:pointer}.primary{background:var(--accent);color:#111;border:none}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:17px;min-height:130px}.hero{grid-column:span 5;min-height:255px}.chartcard{grid-column:span 7;min-height:255px}.small{grid-column:span 3}.mid{grid-column:span 4}.label{font-size:13px;color:var(--muted);font-weight:800;letter-spacing:.05em;text-transform:uppercase}.value{font-weight:900;line-height:.9;margin-top:14px;font-size:clamp(52px,8vw,100px)}.metric{font-weight:900;margin-top:11px;font-size:clamp(30px,4.7vw,58px)}.unit{font-size:.34em;color:var(--muted);font-weight:800;margin-left:6px}.zone{display:inline-block;margin-top:12px;padding:7px 11px;border-radius:999px;background:#252c35;font-weight:900}.progress{height:9px;border-radius:999px;background:#262d36;overflow:hidden;margin-top:14px}.bar{height:100%;width:0;background:var(--accent);transition:.2s}canvas{width:100%;height:180px;background:#0f1317;border-radius:14px;margin-top:10px}.note{color:var(--muted);font-size:12px;line-height:1.4;margin-top:9px}.sources{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.tag{font-size:11px;padding:6px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}.tag.on{color:#fff;border-color:#53606e}.debug{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#d7dce3;background:#0e1217;border-radius:12px;padding:12px;margin-top:12px;max-height:170px;overflow:auto}@media(max-width:900px){.hero,.chartcard{grid-column:span 12}.small{grid-column:span 6}.mid{grid-column:span 6}}@media(max-width:560px){.small,.mid{grid-column:span 12}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <div>
-      <div class="title">ANGELO RUN LAB</div>
-      <div class="status" id="status">Ready • demo values until a sensor connects</div>
-      <div class="sources">
-        <span class="tag" id="tagHR">HR: demo</span>
-        <span class="tag" id="tagRSC">pace/cadence: demo</span>
-        <span class="tag" id="tagFTMS">treadmill: manual</span>
-      </div>
-    </div>
-    <div class="buttons">
-      <button class="primary" onclick="connectPolar()">Connect Polar / HR</button>
-      <button onclick="connectRSC()">Connect Pace + Cadence</button>
-      <button onclick="connectFTMS()">Connect Treadmill</button>
-      <button onclick="lap()">Lap</button>
-      <button onclick="resetWorkout()">Reset</button>
-    </div>
-  </div>
-
+  <div class="top"><div><div class="title">ANGELO RUN LAB</div><div class="status" id="status">Ready • demo values until a sensor connects</div><div class="sources"><span class="tag" id="tagHR">HR: demo</span><span class="tag" id="tagRSC">pace/cadence: demo</span><span class="tag" id="tagFTMS">treadmill: manual</span></div></div><div class="buttons"><button class="primary" onclick="connectPolar()">Connect Polar / HR</button><button onclick="disconnectHR()">Disconnect HR</button><button onclick="connectRSC()">Connect Pace + Cadence</button><button onclick="connectFTMS()">Connect Treadmill</button><button onclick="lap()">Lap</button><button onclick="resetWorkout()">Reset</button></div></div>
   <div class="grid">
-    <section class="card hero">
-      <div class="label">Heart Rate</div>
-      <div class="value"><span id="hr">148</span><span class="unit">bpm</span></div>
-      <div class="zone" id="zone">Z2</div>
-      <div class="progress"><div class="bar" id="hrbar"></div></div>
-      <div class="note">Polar Pacer Pro in HR broadcast mode or Polar H9/H10.</div>
-    </section>
-
-    <section class="card chartcard">
-      <div class="label">Live HR Trace • last 60 s</div>
-      <canvas id="chart" width="900" height="180"></canvas>
-    </section>
-
-    <section class="card small">
-      <div class="label">Pace</div>
-      <div class="metric"><span id="pace">5:00</span><span class="unit">/km</span></div>
-    </section>
-    <section class="card small">
-      <div class="label">Speed</div>
-      <div class="metric"><span id="speedVal">12.0</span><span class="unit">km/h</span></div>
-    </section>
-    <section class="card small">
-      <div class="label">Cadence</div>
-      <div class="metric"><span id="cad">176</span><span class="unit">spm</span></div>
-    </section>
-    <section class="card small">
-      <div class="label">Distance</div>
-      <div class="metric"><span id="dist">0.00</span><span class="unit">km</span></div>
-    </section>
-
-    <section class="card mid">
-      <div class="label">Lap</div>
-      <div class="metric" id="lapNo">1</div>
-      <div class="note">Manual lap button</div>
-    </section>
-    <section class="card mid">
-      <div class="label">Lap Time</div>
-      <div class="metric" id="lapTime">00:00</div>
-    </section>
-    <section class="card mid">
-      <div class="label">Workout Time</div>
-      <div class="metric" id="totalTime">00:00</div>
-    </section>
-
-    <section class="card mid">
-      <div class="label">Incline</div>
-      <div class="metric"><span id="incline">0.0</span><span class="unit">%</span></div>
-    </section>
-    <section class="card mid">
-      <div class="label">Manual treadmill speed</div>
-      <div style="margin-top:14px"><input id="speed" type="number" min="1" max="30" step="0.1" value="12.0" oninput="manualSpeed()"/></div>
-      <div class="note">Used only when FTMS / running sensor is not feeding speed.</div>
-    </section>
-    <section class="card mid">
-      <div class="label">Connection Notes</div>
-      <div class="note">
-        Pacer Pro normally exposes heart rate when broadcasting HR. Pace/cadence require a sensor that exposes the Bluetooth Running Speed & Cadence service, and treadmill metrics require FTMS. The browser can combine them when supported.
-      </div>
-    </section>
+    <section class="card hero"><div class="label">Heart Rate</div><div class="value"><span id="hr">148</span><span class="unit">bpm</span></div><div class="zone" id="zone">Z2</div><div class="progress"><div class="bar" id="hrbar"></div></div><div class="note">Polar Pacer Pro in HR broadcast mode or Polar H9/H10.</div></section>
+    <section class="card chartcard"><div class="label">Live HR Trace • last 60 s</div><canvas id="chart" width="900" height="180"></canvas><div class="debug" id="debug">Diagnostic log ready.</div></section>
+    <section class="card small"><div class="label">Pace</div><div class="metric"><span id="pace">5:00</span><span class="unit">/km</span></div></section>
+    <section class="card small"><div class="label">Speed</div><div class="metric"><span id="speedVal">12.0</span><span class="unit">km/h</span></div></section>
+    <section class="card small"><div class="label">Cadence</div><div class="metric"><span id="cad">176</span><span class="unit">spm</span></div></section>
+    <section class="card small"><div class="label">Distance</div><div class="metric"><span id="dist">0.00</span><span class="unit">km</span></div></section>
+    <section class="card mid"><div class="label">Lap</div><div class="metric" id="lapNo">1</div></section><section class="card mid"><div class="label">Lap Time</div><div class="metric" id="lapTime">00:00</div></section><section class="card mid"><div class="label">Workout Time</div><div class="metric" id="totalTime">00:00</div></section>
+    <section class="card mid"><div class="label">Incline</div><div class="metric"><span id="incline">0.0</span><span class="unit">%</span></div></section><section class="card mid"><div class="label">Manual treadmill speed</div><div style="margin-top:14px"><input id="speed" type="number" min="1" max="30" step="0.1" value="12.0" oninput="manualSpeed()"/></div></section><section class="card mid"><div class="label">Connection Notes</div><div class="note">If Polar is selected but GATT hangs, the diagnostic box now shows exactly where it stops.</div></section>
   </div>
 </div>
-
 <script>
-let hr=148, cadence=176, speed=12, incline=0, distance=0;
-let totalSeconds=0, lapSeconds=0, lapNum=1;
-let hrLive=false, rscLive=false, ftmsLive=false;
-let samples=Array(60).fill(hr);
-
-function zoneFor(h){ if(h<140)return"Z1"; if(h<150)return"Z2"; if(h<160)return"Z3"; if(h<=180)return"Z4"; return"Z5"; }
-function fmt(t){return String(Math.floor(t/60)).padStart(2,'0')+":"+String(t%60).padStart(2,'0')}
-function paceFromSpeed(s){if(!s||s<=0)return"--:--";let sec=3600/s,m=Math.floor(sec/60),ss=Math.round(sec%60);if(ss===60){m++;ss=0}return m+":"+String(ss).padStart(2,'0')}
-function setTag(id,text,on){const e=document.getElementById(id);e.textContent=text;e.classList.toggle("on",!!on)}
-function render(){
-  document.getElementById("hr").textContent=Math.round(hr);
-  document.getElementById("zone").textContent=zoneFor(hr);
-  document.getElementById("hrbar").style.width=Math.min(100,hr/190*100)+"%";
-  document.getElementById("cad").textContent=Math.round(cadence);
-  document.getElementById("speedVal").textContent=Number(speed).toFixed(1);
-  document.getElementById("pace").textContent=paceFromSpeed(speed);
-  document.getElementById("dist").textContent=distance.toFixed(2);
-  document.getElementById("incline").textContent=Number(incline).toFixed(1);
-  document.getElementById("lapNo").textContent=lapNum;
-  document.getElementById("lapTime").textContent=fmt(lapSeconds);
-  document.getElementById("totalTime").textContent=fmt(totalSeconds);
-  drawChart();
-}
-function drawChart(){
-  const c=document.getElementById("chart"),ctx=c.getContext("2d"),w=c.width,h=c.height;
-  ctx.clearRect(0,0,w,h);ctx.strokeStyle="#293039";ctx.lineWidth=1;
-  for(let y=30;y<h;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
-  ctx.strokeStyle="#ff9f0a";ctx.lineWidth=4;ctx.beginPath();
-  samples.forEach((v,i)=>{let x=i/(samples.length-1)*w,y=h-((v-90)/100)*h;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
-}
-setInterval(()=>{
-  totalSeconds++;lapSeconds++;
-  if(!hrLive){hr+= (Math.random()-.48)*2.4;hr=Math.max(110,Math.min(176,hr))}
-  if(!rscLive && !ftmsLive){distance+=speed/3600}
-  samples.push(hr);if(samples.length>60)samples.shift();render();
-},1000);
-
-function manualSpeed(){
-  if(rscLive||ftmsLive)return;
-  speed=parseFloat(document.getElementById("speed").value)||0;render();
-}
-function lap(){lapNum++;lapSeconds=0;render()}
-function resetWorkout(){distance=0;totalSeconds=0;lapSeconds=0;lapNum=1;samples=Array(60).fill(hr);render()}
-
-async function pick(filters, optionalServices=[]){
-  if(!navigator.bluetooth) throw new Error("Web Bluetooth not available in this browser.");
-  return await navigator.bluetooth.requestDevice({filters, optionalServices});
-}
-
+let hr=148,cadence=176,speed=12,incline=0,distance=0,totalSeconds=0,lapSeconds=0,lapNum=1,hrLive=false,rscLive=false,ftmsLive=false,samples=Array(60).fill(hr),hrDevice=null,hrChar=null;
+const log=(m)=>{const d=document.getElementById('debug'); const t=new Date().toLocaleTimeString(); d.textContent+='\n['+t+'] '+m; d.scrollTop=d.scrollHeight; document.getElementById('status').textContent=m;};
+function zoneFor(h){if(h<140)return'Z1';if(h<150)return'Z2';if(h<160)return'Z3';if(h<=180)return'Z4';return'Z5'} function fmt(t){return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')} function paceFromSpeed(s){if(!s||s<=0)return'--:--';let sec=3600/s,m=Math.floor(sec/60),ss=Math.round(sec%60);if(ss===60){m++;ss=0}return m+':'+String(ss).padStart(2,'0')} function setTag(id,text,on){const e=document.getElementById(id);e.textContent=text;e.classList.toggle('on',!!on)}
+function render(){hrbar.style.width=Math.min(100,hr/190*100)+'%';document.getElementById('hr').textContent=Math.round(hr);zone.textContent=zoneFor(hr);cad.textContent=Math.round(cadence);speedVal.textContent=Number(speed).toFixed(1);pace.textContent=paceFromSpeed(speed);dist.textContent=distance.toFixed(2);document.getElementById('incline').textContent=Number(incline).toFixed(1);lapNo.textContent=lapNum;lapTime.textContent=fmt(lapSeconds);totalTime.textContent=fmt(totalSeconds);drawChart()}
+function drawChart(){const c=chart,ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#293039';ctx.lineWidth=1;for(let y=30;y<h;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.strokeStyle='#ff9f0a';ctx.lineWidth=4;ctx.beginPath();samples.forEach((v,i)=>{let x=i/(samples.length-1)*w,y=h-((v-90)/100)*h;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()}
+setInterval(()=>{totalSeconds++;lapSeconds++;if(!hrLive){hr+=(Math.random()-.48)*2.4;hr=Math.max(110,Math.min(176,hr))}if(!rscLive&&!ftmsLive)distance+=speed/3600;samples.push(hr);if(samples.length>60)samples.shift();render()},1000);
+function manualSpeed(){if(rscLive||ftmsLive)return;speed=parseFloat(document.getElementById('speed').value)||0;render()} function lap(){lapNum++;lapSeconds=0;render()} function resetWorkout(){distance=0;totalSeconds=0;lapSeconds=0;lapNum=1;samples=Array(60).fill(hr);render()}
+function timeout(p,ms,label){return Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error(label+' timed out after '+ms+' ms')),ms))])}
 async function connectPolar(){
-  try{
-    document.getElementById("status").textContent="Searching for Polar / HR sensor…";
-    const device=await pick([{services:["heart_rate"]}],["heart_rate"]);
-    const server=await device.gatt.connect();
-    const service=await server.getPrimaryService("heart_rate");
-    const ch=await service.getCharacteristic("heart_rate_measurement");
-    await ch.startNotifications();
-    ch.addEventListener("characteristicvaluechanged",e=>{
-      const v=e.target.value,flags=v.getUint8(0);
-      hr=(flags&1)?v.getUint16(1,true):v.getUint8(1);
-      hrLive=true;setTag("tagHR","HR: "+(device.name||"sensor"),true);
-      document.getElementById("status").textContent="Connected • "+(device.name||"heart-rate sensor");
-      render();
-    });
-  }catch(e){document.getElementById("status").textContent="HR connection failed: "+e.message}
+ try{
+  if(!navigator.bluetooth) throw new Error('Web Bluetooth is not available. Use Chrome/Edge desktop over HTTPS.');
+  log('1/6 Opening Bluetooth device picker…');
+  hrDevice=await navigator.bluetooth.requestDevice({filters:[{services:['heart_rate']}],optionalServices:['heart_rate']});
+  log('2/6 Selected: '+(hrDevice.name||'unnamed device'));
+  hrDevice.addEventListener('gattserverdisconnected',()=>{hrLive=false;setTag('tagHR','HR: disconnected',false);log('Device disconnected. Put the watch back in HR sensor mode and reconnect.')});
+  if(hrDevice.gatt.connected){log('Existing GATT session found; disconnecting stale session first…');hrDevice.gatt.disconnect();await new Promise(r=>setTimeout(r,800));}
+  log('3/6 Connecting GATT…');
+  const server=await timeout(hrDevice.gatt.connect(),12000,'GATT connect');
+  log('4/6 GATT connected. Reading heart_rate service…');
+  const service=await timeout(server.getPrimaryService('heart_rate'),8000,'Heart Rate service');
+  log('5/6 Heart Rate service found. Starting notifications…');
+  hrChar=await timeout(service.getCharacteristic('heart_rate_measurement'),8000,'HR measurement characteristic');
+  hrChar.addEventListener('characteristicvaluechanged',onHR);
+  await timeout(hrChar.startNotifications(),8000,'HR notifications');
+  hrLive=true;setTag('tagHR','HR: '+(hrDevice.name||'Polar'),true);log('6/6 CONNECTED. Waiting for first HR packet…');
+ }catch(e){hrLive=false;setTag('tagHR','HR: failed',false);log('ERROR: '+(e.name||'Error')+' — '+e.message);console.error(e)}
 }
-
-async function connectRSC(){
-  try{
-    document.getElementById("status").textContent="Searching for Running Speed + Cadence sensor…";
-    const device=await pick([{services:["running_speed_and_cadence"]}],["running_speed_and_cadence"]);
-    const server=await device.gatt.connect();
-    const service=await server.getPrimaryService("running_speed_and_cadence");
-    const ch=await service.getCharacteristic("rsc_measurement");
-    await ch.startNotifications();
-    ch.addEventListener("characteristicvaluechanged",e=>{
-      const v=e.target.value, flags=v.getUint8(0);
-      const instSpeed=v.getUint16(1,true)/256;
-      const instCad=v.getUint8(3);
-      speed=instSpeed*3.6; cadence=instCad*2;
-      rscLive=true;setTag("tagRSC","pace/cadence: "+(device.name||"RSC"),true);
-      render();
-    });
-  }catch(e){document.getElementById("status").textContent="RSC connection failed: "+e.message}
-}
-
-async function connectFTMS(){
-  try{
-    document.getElementById("status").textContent="Searching for FTMS treadmill…";
-    const device=await pick([{services:["fitness_machine"]}],["fitness_machine"]);
-    const server=await device.gatt.connect();
-    const service=await server.getPrimaryService("fitness_machine");
-    const ch=await service.getCharacteristic("treadmill_data");
-    await ch.startNotifications();
-    ch.addEventListener("characteristicvaluechanged",e=>{
-      const v=e.target.value;
-      let i=0;
-      const flags=v.getUint16(i,true); i+=2;
-      speed=v.getUint16(i,true)/100; i+=2;
-      if(flags & (1<<1)) i+=2;
-      if(flags & (1<<2)){
-        distance=(v.getUint8(i) | (v.getUint8(i+1)<<8) | (v.getUint8(i+2)<<16))/1000; i+=3;
-      }
-      if(flags & (1<<3)){
-        incline=v.getInt16(i,true)/10; i+=4;
-      }
-      ftmsLive=true;setTag("tagFTMS","treadmill: "+(device.name||"FTMS"),true);
-      render();
-    });
-  }catch(e){document.getElementById("status").textContent="FTMS connection failed: "+e.message}
-}
+function onHR(e){const v=e.target.value,flags=v.getUint8(0);hr=(flags&1)?v.getUint16(1,true):v.getUint8(1);hrLive=true;samples.push(hr);if(samples.length>60)samples.shift();setTag('tagHR','HR: '+(hrDevice?.name||'Polar'),true);document.getElementById('status').textContent='Connected • '+Math.round(hr)+' bpm';render()}
+function disconnectHR(){try{if(hrDevice?.gatt?.connected)hrDevice.gatt.disconnect();hrLive=false;setTag('tagHR','HR: disconnected',false);log('HR manually disconnected.')}catch(e){log('Disconnect error: '+e.message)}}
+async function connectRSC(){try{const device=await navigator.bluetooth.requestDevice({filters:[{services:['running_speed_and_cadence']}],optionalServices:['running_speed_and_cadence']});const server=await device.gatt.connect();const service=await server.getPrimaryService('running_speed_and_cadence');const ch=await service.getCharacteristic('rsc_measurement');await ch.startNotifications();ch.addEventListener('characteristicvaluechanged',e=>{const v=e.target.value;speed=v.getUint16(1,true)/256*3.6;cadence=v.getUint8(3)*2;rscLive=true;setTag('tagRSC','pace/cadence: '+(device.name||'RSC'),true);render()})}catch(e){log('RSC error: '+e.message)}}
+async function connectFTMS(){try{const device=await navigator.bluetooth.requestDevice({filters:[{services:['fitness_machine']}],optionalServices:['fitness_machine']});const server=await device.gatt.connect();const service=await server.getPrimaryService('fitness_machine');const ch=await service.getCharacteristic('treadmill_data');await ch.startNotifications();ch.addEventListener('characteristicvaluechanged',e=>{const v=e.target.value;let i=0,flags=v.getUint16(i,true);i+=2;speed=v.getUint16(i,true)/100;i+=2;if(flags&(1<<1))i+=2;if(flags&(1<<2)){distance=(v.getUint8(i)|(v.getUint8(i+1)<<8)|(v.getUint8(i+2)<<16))/1000;i+=3}if(flags&(1<<3)){incline=v.getInt16(i,true)/10;i+=4}ftmsLive=true;setTag('tagFTMS','treadmill: '+(device.name||'FTMS'),true);render()})}catch(e){log('FTMS error: '+e.message)}}
 render();
 </script>
 </body>
