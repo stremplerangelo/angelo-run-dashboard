@@ -1,196 +1,143 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0f14">
-  <title>ANGELO Track Lab</title>
-  <style>
-    :root{
-      --bg:#0b0f14; --panel:#141c26; --panel2:#1a2430; --line:#273445;
-      --text:#f3f7fb; --muted:#9eb0c2; --accent:#ff9f0a; --good:#30d158;
-      --blue:#5fc9ff; --cyan:#8fe7ff;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    .wrap{max-width:1500px;margin:auto;padding:16px}
-    .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-    .title{font-size:clamp(28px,4vw,50px);font-weight:950;letter-spacing:-.04em}
-    .status{font-size:13px;color:var(--muted);margin-top:5px}
-    .row{display:flex;gap:8px;flex-wrap:wrap}
-    .tag{font-size:11px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:#0f151d}
-    button,input,select{font:inherit;color:#fff;background:#1b2531;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-    button{font-weight:850;cursor:pointer}
-    .pri{background:var(--accent);border-color:var(--accent);color:#111}
-    .go{background:var(--good);border-color:var(--good);color:#071108}
-    .danger{background:#2b1718;border-color:#6d3132;color:#ffb0b0}
-    .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
-    .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:16px}
-    .hero{grid-column:span 4}
-    .track{grid-column:span 8}
-    .half{grid-column:span 6}
-    .quarter{grid-column:span 3}
-    .full{grid-column:span 12}
-    .label{font-size:12px;color:var(--muted);font-weight:850;letter-spacing:.07em;text-transform:uppercase}
-    .big{font-size:clamp(70px,10vw,118px);font-weight:950;line-height:.9;margin-top:14px}
-    .metric{font-size:clamp(34px,4.5vw,58px);font-weight:930;margin-top:12px;line-height:1}
-    .unit{font-size:.33em;color:var(--muted);margin-left:6px}
-    .zone{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:7px 12px;border-radius:999px;background:#25303c;font-weight:900}
-    .dot{width:9px;height:9px;border-radius:50%;background:#56c6ff}
-    .barbg{height:10px;border-radius:999px;background:#26313d;overflow:hidden;margin-top:12px}
-    .bar{height:100%;width:0;background:var(--accent)}
-    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-    .kpi{background:#0f151d;border:1px solid #242f3b;border-radius:12px;padding:10px}
-    .kpi .t{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase}
-    .kpi .n{font-size:22px;font-weight:900;margin-top:4px}
-    .mini{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px}
-    .trackbox{margin-top:12px;background:#0b1016;border:1px solid #202b38;border-radius:18px;padding:10px}
-    svg{width:100%;height:330px;display:block}
-    canvas{width:100%;height:170px;background:#0d131a;border-radius:14px;margin-top:12px}
-    .controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
-    .field label{display:block;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;margin:0 0 5px 2px}
-    .field input,.field select{width:100%}
-    .tablewrap{overflow:auto;border:1px solid #25303b;border-radius:12px;margin-top:12px;max-height:260px}
-    table{width:100%;border-collapse:collapse;min-width:720px;font-size:13px}
-    th,td{padding:10px 11px;text-align:right;border-bottom:1px solid #25303b;white-space:nowrap}
-    th:first-child,td:first-child{text-align:left}
-    th{position:sticky;top:0;background:#161f29;color:var(--muted);font-size:11px;text-transform:uppercase}
-    @media(max-width:1050px){.hero,.track,.half{grid-column:span 12}.quarter{grid-column:span 6}.controls{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:650px){.quarter{grid-column:span 12}.controls{grid-template-columns:1fr}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0f14">
+<title>ANGELO Track Lab</title>
+<style>
+:root{
+--bg:#0b0f14; --panel:#141c26; --panel2:#1a2430; --line:#273445;
+--text:#f3f7fb; --muted:#9eb0c2; --accent:#ff9f0a; --good:#30d158;
+--blue:#5fc9ff; --cyan:#8fe7ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1500px;margin:auto;padding:16px}
+.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.title{font-size:clamp(28px,4vw,50px);font-weight:950;letter-spacing:-.04em}
+.status{font-size:13px;color:var(--muted);margin-top:5px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:#0f151d}
+button,input,select{font:inherit;color:#fff;background:#1b2531;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+button{font-weight:850;cursor:pointer}
+.pri{background:var(--accent);border-color:var(--accent);color:#111}
+.go{background:var(--good);border-color:var(--good);color:#071108}
+.danger{background:#2b1718;border-color:#6d3132;color:#ffb0b0}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:16px}
+.hero{grid-column:span 4}
+.track{grid-column:span 8}
+.half{grid-column:span 6}
+.quarter{grid-column:span 3}
+.full{grid-column:span 12}
+.label{font-size:12px;color:var(--muted);font-weight:850;letter-spacing:.07em;text-transform:uppercase}
+.big{font-size:clamp(70px,10vw,118px);font-weight:950;line-height:.9;margin-top:14px}
+.metric{font-size:clamp(34px,4.5vw,58px);font-weight:930;margin-top:12px;line-height:1}
+.unit{font-size:.33em;color:var(--muted);margin-left:6px}
+.zone{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:7px 12px;border-radius:999px;background:#25303c;font-weight:900}
+.dot{width:9px;height:9px;border-radius:50%;background:#56c6ff}
+.barbg{height:10px;border-radius:999px;background:#26313d;overflow:hidden;margin-top:12px}
+.bar{height:100%;width:0;background:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.kpi{background:#0f151d;border:1px solid #242f3b;border-radius:12px;padding:10px}
+.kpi .t{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase}
+.kpi .n{font-size:22px;font-weight:900;margin-top:4px}
+.mini{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px}
+.trackbox{margin-top:12px;background:#0b1016;border:1px solid #202b38;border-radius:18px;padding:10px}
+svg{width:100%;height:330px;display:block}
+canvas{width:100%;height:170px;background:#0d131a;border-radius:14px;margin-top:12px}
+.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.field label{display:block;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;margin:0 0 5px 2px}
+.field input,.field select{width:100%}
+.tablewrap{overflow:auto;border:1px solid #25303b;border-radius:12px;margin-top:12px;max-height:260px}
+table{width:100%;border-collapse:collapse;min-width:720px;font-size:13px}
+th,td{padding:10px 11px;text-align:right;border-bottom:1px solid #25303b;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{position:sticky;top:0;background:#161f29;color:var(--muted);font-size:11px;text-transform:uppercase}
+@media(max-width:1050px){.hero,.track,.half{grid-column:span 12}.quarter{grid-column:span 6}.controls{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.quarter{grid-column:span 12}.controls{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <div>
-      <div class="title">ANGELO TRACK LAB</div>
-      <div class="status" id="status">Heart-rate live + manual treadmill values + smooth track view.</div>
-      <div class="row" style="margin-top:10px">
-        <span class="tag" id="hrTag">HR: disconnected</span>
-        <span class="tag">manual speed/pace/distance</span>
-        <span class="tag">smooth track dot</span>
-      </div>
-    </div>
-    <div class="row">
-      <button class="pri" id="connectBtn">Connect Polar / HR</button>
-      <button class="go" id="startBtn">Start</button>
-      <button id="lapBtn">Lap</button>
-      <button id="fullBtn">Fullscreen</button>
-      <button class="danger" id="resetBtn">Reset</button>
-    </div>
-  </div>
-
-  <div class="grid">
-    <section class="card hero">
-      <div class="label">Heart Rate</div>
-      <div class="big"><span id="hr">--</span><span class="unit">bpm</span></div>
-      <div class="zone"><span class="dot" id="zoneDot"></span><span id="zone">--</span></div>
-      <div class="barbg"><div class="bar" id="hrBar"></div></div>
-      <div class="kpis">
-        <div class="kpi"><div class="t">Avg HR</div><div class="n" id="avgHr">--</div></div>
-        <div class="kpi"><div class="t">Max HR</div><div class="n" id="maxHr">--</div></div>
-        <div class="kpi"><div class="t">1-min drop</div><div class="n" id="recovery">--</div></div>
-      </div>
-      <div class="mini">Aquí enfocado en FC real desde tu Polar. El pace y la distancia los puedes mover manualmente para que coincidan con la caminadora.</div>
-    </section>
-
-    <section class="card track">
-      <div class="label">Track View</div>
-      <div class="trackbox">
-        <svg viewBox="0 0 1000 360" aria-label="Running track">
-          <defs>
-            <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
-              <feGaussianBlur stdDeviation="7" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <rect x="18" y="18" width="964" height="324" rx="28" fill="#0a1016" stroke="#1d2733"/>
-          <rect x="205" y="118" width="590" height="124" rx="62" fill="#10202a" stroke="#193543"/>
-          <path d="M860 180 C860 119.2 811.8 70 751 70 H249 C188.2 70 140 119.2 140 180 C140 240.8 188.2 290 249 290 H751 C811.8 290 860 240.8 860 180 Z" fill="none" stroke="#293646" stroke-width="86" stroke-linecap="round"/>
-          <path d="M860 180 C860 119.2 811.8 70 751 70 H249 C188.2 70 140 119.2 140 180 C140 240.8 188.2 290 249 290 H751 C811.8 290 860 240.8 860 180 Z" fill="none" stroke="#5fd2ff" stroke-opacity="0.35" stroke-width="3" stroke-dasharray="8 10"/>
-          <path d="M820 180 C820 136.0 785 101 741 101 H259 C215 101 180 136 180 180 C180 224 215 259 259 259 H741 C785 259 820 224 820 180 Z" fill="none" stroke="#314152" stroke-width="2"/>
-          <path d="M780 180 C780 153 758 131 731 131 H269 C242 131 220 153 220 180 C220 207 242 229 269 229 H731 C758 229 780 207 780 180 Z" fill="none" stroke="#314152" stroke-width="2"/>
-          <line x1="500" y1="70" x2="500" y2="290" stroke="#fff" stroke-opacity="0.16" stroke-width="3"/>
-          <text x="500" y="48" fill="#91a6b9" text-anchor="middle" font-size="22">smooth track view</text>
-          <text id="trackLap" x="500" y="188" fill="#ffffff" text-anchor="middle" font-size="38" font-weight="900">LAP 1</text>
-          <text id="trackInfo" x="500" y="222" fill="#9fb0c0" text-anchor="middle" font-size="22">0 m / 400 m</text>
-          <path id="motionPath" d="M860 180 C860 119.2 811.8 70 751 70 H249 C188.2 70 140 119.2 140 180 C140 240.8 188.2 290 249 290 H751 C811.8 290 860 240.8 860 180 Z" fill="none" stroke="none"/>
-          <circle id="runnerShadow" cx="860" cy="180" r="28" fill="#ff9f0a" opacity="0.18"></circle>
-          <circle id="runner" cx="860" cy="180" r="15" fill="#ff9f0a" stroke="#fff" stroke-width="4" filter="url(#glow)"></circle>
-        </svg>
-      </div>
-      <div class="mini" id="split">Current split: --:--</div>
-      <canvas id="chart" width="1000" height="170"></canvas>
-    </section>
-
-    <section class="card quarter"><div class="label">Pace</div><div class="metric"><span id="pace">--:--</span><span class="unit">/km</span></div><div class="mini">Auto desde speed, o lo puedes override.</div></section>
-    <section class="card quarter"><div class="label">Speed</div><div class="metric"><span id="speedView">0.0</span><span class="unit">km/h</span></div><div class="mini">Manual</div></section>
-    <section class="card quarter"><div class="label">Distance</div><div class="metric"><span id="distanceView">0.00</span><span class="unit">km</span></div><div class="mini">Editable + auto</div></section>
-    <section class="card quarter"><div class="label">Workout</div><div class="metric" id="phase">READY</div><div class="mini">Start anima la bolita y el reloj.</div></section>
-
-    <section class="card half">
-      <div class="label">Manual Controls</div>
-      <div class="controls">
-        <div class="field"><label>Speed km/h</label><input id="speedInput" type="number" min="0" max="30" step="0.1" value="0"></div>
-        <div class="field"><label>Pace override</label><input id="paceInput" placeholder="4:10"></div>
-        <div class="field"><label>Distance km</label><input id="distanceInput" type="number" min="0" step="0.01" value="0.00"></div>
-        <div class="field"><label>Auto-lap</label><select id="autoLap"><option value="0">Off</option><option value="0.2">200 m</option><option value="0.4" selected>400 m</option><option value="0.8">800 m</option><option value="1">1000 m</option><option value="1.6">1600 m</option></select></div>
-      </div>
-      <div class="controls">
-        <div class="field"><label>Track length</label><select id="trackLength"><option value="400" selected>400 m</option><option value="200">200 m</option><option value="300">300 m</option><option value="1000">1000 m</option></select></div>
-        <div class="field"><label>Z1 upper</label><input id="z1" type="number" value="139"></div>
-        <div class="field"><label>Z2 upper</label><input id="z2" type="number" value="149"></div>
-        <div class="field"><label>Z3 upper</label><input id="z3" type="number" value="159"></div>
-      </div>
-      <div class="controls">
-        <div class="field"><label>Z4 upper</label><input id="z4" type="number" value="180"></div>
-        <div class="field"><label>Jump distance</label><button type="button" id="plus100">+0.10 km</button></div>
-        <div class="field"><label>Jump distance</label><button type="button" id="plus400">+0.40 km</button></div>
-        <div class="field"><label>Save settings</label><button type="button" id="saveBtn">Save</button></div>
-      </div>
-    </section>
-
-    <section class="card half">
-      <div class="label">Current Lap</div>
-      <div class="kpis">
-        <div class="kpi"><div class="t">Lap</div><div class="n" id="lapNo">1</div></div>
-        <div class="kpi"><div class="t">Lap time</div><div class="n" id="lapTime">00:00</div></div>
-        <div class="kpi"><div class="t">Total time</div><div class="n" id="totalTime">00:00</div></div>
-      </div>
-      <div class="kpis">
-        <div class="kpi"><div class="t">Lap distance</div><div class="n" id="lapDistance">0.00</div></div>
-        <div class="kpi"><div class="t">Lap avg HR</div><div class="n" id="lapAvg">--</div></div>
-        <div class="kpi"><div class="t">Lap max HR</div><div class="n" id="lapMax">--</div></div>
-      </div>
-      <div class="kpis">
-        <div class="kpi"><div class="t">Last lap pace</div><div class="n" id="lastLapPace">--:--</div></div>
-        <div class="kpi"><div class="t">HR at lap</div><div class="n" id="hrAtLap">--</div></div>
-        <div class="kpi"><div class="t">Last lap</div><div class="n" id="lastLap">--</div></div>
-      </div>
-    </section>
-
-    <section class="card full">
-      <div class="label">Lap History</div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Lap</th><th>Time</th><th>Distance</th><th>Pace</th><th>Avg HR</th><th>Max HR</th><th>Finish HR</th><th>HR +60s</th><th>Drop</th></tr></thead>
-          <tbody id="lapRows"><tr><td colspan="9" style="text-align:center;color:#9eb0c2">No laps yet</td></tr></tbody>
-        </table>
-      </div>
-    </section>
-  </div>
+<div class="top">
+<div>
+<div class="title">ANGELO TRACK LAB</div>
+<div class="status" id="status">Heart-rate live + manual treadmill values + Nordic-style track view.</div>
+<div class="row" style="margin-top:10px">
+<span class="tag" id="hrTag">HR: disconnected</span>
+<span class="tag">manual speed/pace/distance</span>
+<span class="tag">smooth track dot</span>
+</div>
+</div>
+<div class="row">
+<button class="pri" id="connectBtn">Connect Polar / HR</button>
+<button class="go" id="startBtn">Start</button>
+<button id="lapBtn">Lap</button>
+<button id="fullBtn">Fullscreen</button>
+<button class="danger" id="resetBtn">Reset</button>
+</div>
+</div>
+<div class="grid">
+<section class="card hero">
+<div class="label">Heart Rate</div>
+<div class="big"><span id="hr">--</span><span class="unit">bpm</span></div>
+<div class="zone"><span class="dot" id="zoneDot"></span><span id="zone">--</span></div>
+<div class="barbg"><div class="bar" id="hrBar"></div></div>
+<div class="kpis">
+<div class="kpi"><div class="t">Avg HR</div><div class="n" id="avgHr">--</div></div>
+<div class="kpi"><div class="t">Max HR</div><div class="n" id="maxHr">--</div></div>
+<div class="kpi"><div class="t">1-min drop</div><div class="n" id="recovery">--</div></div>
+</div>
+<div class="mini">Aquí enfocado en FC real desde tu Polar. El pace y la distancia los puedes mover manualmente para que coincidan con la caminadora.</div>
+</section>
+<section class="card track">
+<div class="label">Track View</div>
+<div class="trackbox">
+<svg viewBox="0 0 1000 360" aria-label="Running track">
+<defs>
+<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="fieldGlow" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#10202a"/><stop offset="100%" stop-color="#132532"/></linearGradient>
+</defs>
+<rect x="18" y="18" width="964" height="324" rx="28" fill="#0a1016" stroke="#1d2733"/>
+<rect x="225" y="136" width="550" height="88" rx="44" fill="url(#fieldGlow)" stroke="#183645"/>
+<path d="M860 180 C860 119.2 811.8 70 751 70 H249 C188.2 70 140 119.2 140 180 C140 240.8 188.2 290 249 290 H751 C811.8 290 860 240.8 860 180 Z" fill="none" stroke="#243140" stroke-width="92" stroke-linecap="round"/>
+<path d="M840 180 C840 130.3 800 90 750 90 H250 C200 90 160 130.3 160 180 C160 229.7 200 270 250 270 H750 C800 270 840 229.7 840 180 Z" fill="none" stroke="#334355" stroke-width="2.2"/>
+<path d="M820 180 C820 141.4 789 110 750 110 H250 C211 110 180 141.4 180 180 C180 218.6 211 250 250 250 H750 C789 250 820 218.6 820 180 Z" fill="none" stroke="#3b4e61" stroke-width="2"/>
+<path d="M800 180 C800 152.5 778 130 750 130 H250 C222 130 200 152.5 200 180 C200 207.5 222 230 250 230 H750 C778 230 800 207.5 800 180 Z" fill="none" stroke="#43596e" stroke-width="1.8"/>
+<path d="M860 180 C860 119.2 811.8 70 751 70 H249 C188.2 70 140 119.2 140 180 C140 240.8 188.2 290 249 290 H751 C811.8 290 860 240.8 860 180 Z" fill="none" stroke="#74ddff" stroke-opacity="0.18" stroke-width="4" stroke-dasharray="8 11"/>
+<line x1="500" y1="70" x2="500" y2="290" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
+<g id="startMark"><rect x="847" y="158" width="10" height="10" fill="#ffffff" rx="1.5"/><rect x="857" y="158" width="10" height="10" fill="#ff9f0a" rx="1.5"/><rect x="847" y="168" width="10" height="10" fill="#ff9f0a" rx="1.5"/><rect x="857" y="168" width="10" height="10" fill="#ffffff" rx="1.5"/><rect x="847" y="178" width="10" height="10" fill="#ffffff" rx="1.5"/><rect x="857" y="178" width="10" height="10" fill="#ff9f0a" rx="1.5"/><rect x="847" y="188" width="10" height="10" fill="#ff9f0a" rx="1.5"/><rect x="857" y="188" width="10" height="10" fill="#ffffff" rx="1.5"/><text x="882" y="172" fill="#dbe7f3" font-size="13" font-weight="800">START</text><text x="882" y="188" fill="#89a0b3" font-size="11">0 m</text></g>
+<g id="marker0"><circle id="markerDot0" r="6.5" fill="#8fe7ff" stroke="#ffffff" stroke-width="2" filter="url(#glow)"></circle><text id="markerLabel0" fill="#dce7f2" font-size="13" font-weight="800">0 / 400</text></g>
+<g id="marker1"><circle id="markerDot1" r="6.5" fill="#8fe7ff" stroke="#ffffff" stroke-width="2" filter="url(#glow)"></circle><text id="markerLabel1" fill="#dce7f2" font-size="13" font-weight="800">100</text></g>
+<g id="marker2"><circle id="markerDot2" r="6.5" fill="#8fe7ff" stroke="#ffffff" stroke-width="2" filter="url(#glow)"></circle><text id="markerLabel2" fill="#dce7f2" font-size="13" font-weight="800">200</text></g>
+<g id="marker3"><circle id="markerDot3" r="6.5" fill="#8fe7ff" stroke="#ffffff" stroke-width="2" filter="url(#glow)"></circle><text id="markerLabel3" fill="#dce7f2" font-size="13" font-weight="800">300</text></g>
+<text id="trackLap" x="500" y="185" fill="#ffffff" text-anchor="middle" font-size="40" font-weight="900">LAP 1</text>
+<text id="trackInfo" x="500" y="220" fill="#9fb0c0" text-anchor="middle" font-size="22">0 m / 400 m</text>
+<path id="motionPath" d="M860 180 C860 119.2 811.8 70 751 70 H249 C188.2 70 140 119.2 140 180 C140 240.8 188.2 290 249 290 H751 C811.8 290 860 240.8 860 180 Z" fill="none" stroke="none"/>
+<circle id="runnerShadow" cx="860" cy="180" r="28" fill="#ff9f0a" opacity="0.18"></circle>
+<circle id="runner" cx="860" cy="180" r="15" fill="#ff9f0a" stroke="#ffffff" stroke-width="4" filter="url(#glow)"></circle>
+</svg>
+</div>
+<div class="mini" id="split">Current split: --:--</div>
+<canvas id="chart" width="1000" height="170"></canvas>
+</section>
+<section class="card quarter"><div class="label">Pace</div><div class="metric"><span id="pace">--:--</span><span class="unit">/km</span></div><div class="mini">Auto desde speed, o lo puedes override.</div></section>
+<section class="card quarter"><div class="label">Speed</div><div class="metric"><span id="speedView">0.0</span><span class="unit">km/h</span></div><div class="mini">Manual</div></section>
+<section class="card quarter"><div class="label">Distance</div><div class="metric"><span id="distanceView">0.00</span><span class="unit">km</span></div><div class="mini">Editable + auto</div></section>
+<section class="card quarter"><div class="label">Workout</div><div class="metric" id="phase">READY</div><div class="mini">Start anima la bolita y el reloj.</div></section>
+<section class="card half"><div class="label">Manual Controls</div><div class="controls"><div class="field"><label>Speed km/h</label><input id="speedInput" type="number" min="0" max="30" step="0.1" value="0"></div><div class="field"><label>Pace override</label><input id="paceInput" placeholder="4:10"></div><div class="field"><label>Distance km</label><input id="distanceInput" type="number" min="0" step="0.01" value="0.00"></div><div class="field"><label>Auto-lap</label><select id="autoLap"><option value="0">Off</option><option value="0.2">200 m</option><option value="0.4" selected>400 m</option><option value="0.8">800 m</option><option value="1">1000 m</option><option value="1.6">1600 m</option></select></div></div><div class="controls"><div class="field"><label>Track length</label><select id="trackLength"><option value="400" selected>400 m</option><option value="200">200 m</option><option value="300">300 m</option><option value="1000">1000 m</option></select></div><div class="field"><label>Z1 upper</label><input id="z1" type="number" value="139"></div><div class="field"><label>Z2 upper</label><input id="z2" type="number" value="149"></div><div class="field"><label>Z3 upper</label><input id="z3" type="number" value="159"></div></div><div class="controls"><div class="field"><label>Z4 upper</label><input id="z4" type="number" value="180"></div><div class="field"><label>Jump distance</label><button type="button" id="plus100">+0.10 km</button></div><div class="field"><label>Jump distance</label><button type="button" id="plus400">+0.40 km</button></div><div class="field"><label>Save settings</label><button type="button" id="saveBtn">Save</button></div></div></section>
+<section class="card half"><div class="label">Current Lap</div><div class="kpis"><div class="kpi"><div class="t">Lap</div><div class="n" id="lapNo">1</div></div><div class="kpi"><div class="t">Lap time</div><div class="n" id="lapTime">00:00</div></div><div class="kpi"><div class="t">Total time</div><div class="n" id="totalTime">00:00</div></div></div><div class="kpis"><div class="kpi"><div class="t">Lap distance</div><div class="n" id="lapDistance">0.00</div></div><div class="kpi"><div class="t">Lap avg HR</div><div class="n" id="lapAvg">--</div></div><div class="kpi"><div class="t">Lap max HR</div><div class="n" id="lapMax">--</div></div></div><div class="kpis"><div class="kpi"><div class="t">Last lap pace</div><div class="n" id="lastLapPace">--:--</div></div><div class="kpi"><div class="t">HR at lap</div><div class="n" id="hrAtLap">--</div></div><div class="kpi"><div class="t">Last lap</div><div class="n" id="lastLap">--</div></div></div></section>
+<section class="card full"><div class="label">Lap History</div><div class="tablewrap"><table><thead><tr><th>Lap</th><th>Time</th><th>Distance</th><th>Pace</th><th>Avg HR</th><th>Max HR</th><th>Finish HR</th><th>HR +60s</th><th>Drop</th></tr></thead><tbody id="lapRows"><tr><td colspan="9" style="text-align:center;color:#9eb0c2">No laps yet</td></tr></tbody></table></div></section>
+</div>
 </div>
 <script>
 const $=id=>document.getElementById(id);
-let hr=null, speed=0, distance=0, running=false;
-let totalSec=0, lapSec=0, lapNumber=1;
-let sessionHr=[], currentLapHr=[], hrSamples=[];
-let laps=[], recoveryQueue=[];
-let lapStartDistance=0, paceOverride='';
-let lastFrame=null;
-let hrDevice=null, hrChar=null;
-const motionPath = $('motionPath');
-const pathLength = motionPath.getTotalLength();
+let hr=null, speed=0, distance=0, running=false,totalSec=0, lapSec=0, lapNumber=1;
+let sessionHr=[], currentLapHr=[], hrSamples=[],laps=[], recoveryQueue=[];
+let lapStartDistance=0, paceOverride='',lastFrame=null,hrDevice=null, hrChar=null;
+const motionPath = $('motionPath'); const pathLength = motionPath.getTotalLength();
 function zoneBounds(){return {z1:+$('z1').value||139,z2:+$('z2').value||149,z3:+$('z3').value||159,z4:+$('z4').value||180};}
 function zoneFor(v){if(v==null)return'--';const z=zoneBounds();if(v<=z.z1)return'Z1';if(v<=z.z2)return'Z2';if(v<=z.z3)return'Z3';if(v<=z.z4)return'Z4';return'Z5';}
 function zoneColor(z){return({Z1:'#56c6ff',Z2:'#34d399',Z3:'#ffd60a',Z4:'#ff9f0a',Z5:'#ff5f57'})[z]||'#9eb0c2';}
@@ -199,120 +146,25 @@ function paceFromSpeed(v){if(!v||v<=0)return'--:--';let sec=3600/v;let m=Math.fl
 function validPace(v){return /^\d{1,2}:\d{2}$/.test((v||'').trim());}
 function avg(arr){return arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):null;}
 function mx(arr){return arr.length?Math.max(...arr):null;}
-function paceFromLap(km, sec){if(!km || !sec) return '--:--'; return paceFromSpeed(km*3600/sec);}
-function updateTrackVisual(){
-  const trackMeters = +$('trackLength').value || 400;
-  const lapMeters = (distance*1000)%trackMeters;
-  const progress = trackMeters>0 ? lapMeters/trackMeters : 0;
-  const pt = motionPath.getPointAtLength(progress * pathLength);
-  $('runner').setAttribute('cx', pt.x);
-  $('runner').setAttribute('cy', pt.y);
-  $('runnerShadow').setAttribute('cx', pt.x);
-  $('runnerShadow').setAttribute('cy', pt.y);
-  $('trackLap').textContent = `LAP ${lapNumber}`;
-  $('trackInfo').textContent = `${Math.round(lapMeters)} m / ${trackMeters} m`;
-  $('split').textContent = `Current split: ${speed>0 ? fmtTime((trackMeters/1000)*(3600/speed)) : '--:--'}`;
-}
-function drawChart(){
-  const c=$('chart'), ctx=c.getContext('2d'), w=c.width, h=c.height;
-  ctx.clearRect(0,0,w,h);
-  ctx.strokeStyle='#273445'; ctx.lineWidth=1;
-  for(let y=24;y<h;y+=24){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
-  const data = hrSamples.slice(-120); if(data.length<2) return;
-  ctx.strokeStyle='#ff9f0a'; ctx.lineWidth=4; ctx.beginPath();
-  data.forEach((v,i)=>{const x=i/(data.length-1)*w; const y=h-((v-90)/100)*h; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);});
-  ctx.stroke();
-}
-function render(){
-  const z=zoneFor(hr);
-  $('hr').textContent = hr==null ? '--' : Math.round(hr);
-  $('zone').textContent = z;
-  $('zoneDot').style.background = zoneColor(z);
-  $('hrBar').style.width = hr==null ? '0%' : Math.min(100,hr/190*100)+'%';
-  $('avgHr').textContent = avg(sessionHr) ?? '--';
-  $('maxHr').textContent = mx(sessionHr) ?? '--';
-  $('speedView').textContent = speed.toFixed(1);
-  $('distanceView').textContent = distance.toFixed(2);
-  $('pace').textContent = validPace(paceOverride) ? paceOverride : paceFromSpeed(speed);
-  $('phase').textContent = running ? 'RUNNING' : 'READY';
-  $('startBtn').textContent = running ? 'Pause' : 'Start';
-  $('lapNo').textContent = lapNumber;
-  $('lapTime').textContent = fmtTime(lapSec);
-  $('totalTime').textContent = fmtTime(totalSec);
-  $('lapDistance').textContent = (distance-lapStartDistance).toFixed(2);
-  $('lapAvg').textContent = avg(currentLapHr) ?? '--';
-  $('lapMax').textContent = mx(currentLapHr) ?? '--';
-  updateTrackVisual(); drawChart();
-}
-function renderLaps(){
-  const body=$('lapRows');
-  if(!laps.length){body.innerHTML='<tr><td colspan="9" style="text-align:center;color:#9eb0c2">No laps yet</td></tr>'; return;}
-  body.innerHTML = laps.map(r => `<tr><td>${r.n}</td><td>${r.t}</td><td>${r.d} km</td><td>${r.p}</td><td>${r.a||'--'}</td><td>${r.m||'--'}</td><td>${r.h||'--'}</td><td>${r.h60||'--'}</td><td>${r.dr||'--'}</td></tr>`).join('');
-}
-function saveSettings(){
-  localStorage.setItem('angeloTrackLabSettings', JSON.stringify({speedInput:$('speedInput').value, paceInput:$('paceInput').value, distanceInput:$('distanceInput').value, autoLap:$('autoLap').value, trackLength:$('trackLength').value, z1:$('z1').value, z2:$('z2').value, z3:$('z3').value, z4:$('z4').value}));
-  $('status').textContent = 'Settings saved.';
-}
-function loadSettings(){
-  try{const s=JSON.parse(localStorage.getItem('angeloTrackLabSettings')||'{}'); ['speedInput','paceInput','distanceInput','autoLap','trackLength','z1','z2','z3','z4'].forEach(id=>{if(s[id]!=null) $(id).value=s[id];});}catch(e){}
-  speed = Math.max(0, parseFloat($('speedInput').value)||0); paceOverride = $('paceInput').value.trim(); distance = Math.max(0, parseFloat($('distanceInput').value)||0);
-}
-function manualSpeed(){speed=Math.max(0, parseFloat($('speedInput').value)||0); render();}
-function manualPace(){paceOverride=$('paceInput').value.trim(); render();}
-function manualDistance(){distance=Math.max(0, parseFloat($('distanceInput').value)||0); if(lapStartDistance>distance) lapStartDistance=distance; render();}
-function jumpDistance(v){distance=Math.max(0,distance+v); $('distanceInput').value=distance.toFixed(2); render();}
-function addLap(source='manual'){
-  if(totalSec===0 && distance===0 && !running) return;
-  const lapDist = Math.max(0,distance-lapStartDistance); const finishHr = hr==null ? '' : Math.round(hr);
-  const row = {n:lapNumber, t:fmtTime(lapSec), d:lapDist.toFixed(2), p:paceFromLap(lapDist,lapSec), a:avg(currentLapHr)??'', m:mx(currentLapHr)??'', h:finishHr||'', h60:'', dr:''};
-  laps.push(row); recoveryQueue.push({index:laps.length-1, finish:finishHr||null, due:Date.now()+60000});
-  $('lastLap').textContent = row.t; $('lastLapPace').textContent = row.p; $('hrAtLap').textContent = finishHr||'--';
-  lapStartDistance = distance; lapSec = 0; lapNumber++; currentLapHr = []; renderLaps(); render();
-  if(source==='auto') $('status').textContent='Auto lap triggered.';
-}
-function updateRecovery(){
-  const now=Date.now();
-  recoveryQueue = recoveryQueue.filter(item=>{
-    if(now>=item.due && item.finish!=null && hr!=null){const drop = item.finish - Math.round(hr); laps[item.index].h60 = Math.round(hr); laps[item.index].dr = drop; $('recovery').textContent = drop; renderLaps(); return false;} return true;
-  });
-}
-function resetAll(){
-  running=false; totalSec=0; lapSec=0; lapNumber=1; distance=0; lapStartDistance=0; sessionHr=[]; currentLapHr=[]; hrSamples=[]; laps=[]; recoveryQueue=[]; lastFrame=null;
-  $('distanceInput').value='0.00'; $('recovery').textContent='--'; $('lastLap').textContent='--'; $('lastLapPace').textContent='--:--'; $('hrAtLap').textContent='--'; renderLaps(); render(); $('status').textContent='Workout reset.';
-}
-function animate(ts){
-  if(lastFrame==null) lastFrame=ts;
-  const dt=(ts-lastFrame)/1000; lastFrame=ts;
-  if(running){distance += speed * dt / 3600; $('distanceInput').value = distance.toFixed(2); const autoLap = +$('autoLap').value || 0; if(autoLap>0 && (distance-lapStartDistance)>=autoLap-1e-9) addLap('auto');}
-  updateTrackVisual(); requestAnimationFrame(animate);
-}
-setInterval(()=>{if(running){totalSec++; lapSec++; if(hr!=null){sessionHr.push(hr); currentLapHr.push(hr);}} updateRecovery(); render();},1000);
-async function connectHR(){
-  try{
-    if(!navigator.bluetooth) throw new Error('Open in Chrome or Edge on desktop.');
-    $('status').textContent='Opening Bluetooth picker…';
-    hrDevice = await navigator.bluetooth.requestDevice({filters:[{services:['heart_rate']}], optionalServices:['heart_rate']});
-    $('status').textContent=`Selected: ${hrDevice.name || 'device'}`;
-    hrDevice.addEventListener('gattserverdisconnected', ()=>{ $('hrTag').textContent='HR: disconnected'; $('status').textContent='HR disconnected.'; });
-    if(hrDevice.gatt.connected) hrDevice.gatt.disconnect();
-    const server = await hrDevice.gatt.connect(); const service = await server.getPrimaryService('heart_rate'); hrChar = await service.getCharacteristic('heart_rate_measurement');
-    hrChar.addEventListener('characteristicvaluechanged', e => {const v=e.target.value, flags=v.getUint8(0); hr=(flags&1)?v.getUint16(1,true):v.getUint8(1); hrSamples.push(hr); if(hrSamples.length>150) hrSamples.shift(); $('hrTag').textContent=`HR: ${hrDevice.name || 'Polar'}`; render();});
-    await hrChar.startNotifications(); $('status').textContent='Connected to heart-rate sensor.';
-  }catch(err){$('status').textContent='Connection error: '+err.message;}
-}
-$('connectBtn').addEventListener('click', connectHR);
-$('startBtn').addEventListener('click', ()=>{running=!running; $('status').textContent = running ? 'Workout started.' : 'Workout paused.'; render();});
-$('lapBtn').addEventListener('click', ()=>addLap('manual'));
-$('fullBtn').addEventListener('click', ()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); });
-$('resetBtn').addEventListener('click', resetAll);
-$('speedInput').addEventListener('input', manualSpeed);
-$('paceInput').addEventListener('input', manualPace);
-$('distanceInput').addEventListener('input', manualDistance);
-$('trackLength').addEventListener('change', render);
-$('plus100').addEventListener('click', ()=>jumpDistance(0.10));
-$('plus400').addEventListener('click', ()=>jumpDistance(0.40));
-$('saveBtn').addEventListener('click', saveSettings);
-loadSettings(); renderLaps(); render(); requestAnimationFrame(animate);
+function paceFromLap(km,sec){if(!km||!sec)return'--:--';return paceFromSpeed(km*3600/sec);}
+function updateTrackMarkers(trackMeters){const markers=[{dot:'markerDot0',label:'markerLabel0',frac:0,dx:32,dy:-14,anchor:'start',value:0},{dot:'markerDot1',label:'markerLabel1',frac:.25,dx:0,dy:-18,anchor:'middle',value:Math.round(trackMeters*.25)},{dot:'markerDot2',label:'markerLabel2',frac:.5,dx:-32,dy:-14,anchor:'end',value:Math.round(trackMeters*.5)},{dot:'markerDot3',label:'markerLabel3',frac:.75,dx:0,dy:28,anchor:'middle',value:Math.round(trackMeters*.75)}];markers.forEach((m,idx)=>{const pt=motionPath.getPointAtLength(m.frac*pathLength);$(m.dot).setAttribute('cx',pt.x);$(m.dot).setAttribute('cy',pt.y);$(m.label).setAttribute('x',pt.x+m.dx);$(m.label).setAttribute('y',pt.y+m.dy);$(m.label).setAttribute('text-anchor',m.anchor);$(m.label).textContent=idx===0?`0 / ${trackMeters} m`:`${m.value} m`;});}
+function updateTrackVisual(){const trackMeters=+$('trackLength').value||400;const lapMeters=(distance*1000)%trackMeters;const progress=trackMeters>0?lapMeters/trackMeters:0;const pt=motionPath.getPointAtLength(progress*pathLength);$('runner').setAttribute('cx',pt.x);$('runner').setAttribute('cy',pt.y);$('runnerShadow').setAttribute('cx',pt.x);$('runnerShadow').setAttribute('cy',pt.y);$('trackLap').textContent=`LAP ${lapNumber}`;$('trackInfo').textContent=`${Math.round(lapMeters)} m / ${trackMeters} m`;$('split').textContent=`Current split: ${speed>0?fmtTime((trackMeters/1000)*(3600/speed)):'--:--'}`;updateTrackMarkers(trackMeters);}
+function drawChart(){const c=$('chart'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#273445';ctx.lineWidth=1;for(let y=24;y<h;y+=24){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}const data=hrSamples.slice(-120);if(data.length<2)return;ctx.strokeStyle='#ff9f0a';ctx.lineWidth=4;ctx.beginPath();data.forEach((v,i)=>{const x=i/(data.length-1)*w;const y=h-((v-90)/100)*h;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.stroke();}
+function render(){const z=zoneFor(hr);$('hr').textContent=hr==null?'--':Math.round(hr);$('zone').textContent=z;$('zoneDot').style.background=zoneColor(z);$('hrBar').style.width=hr==null?'0%':Math.min(100,hr/190*100)+'%';$('avgHr').textContent=avg(sessionHr)??'--';$('maxHr').textContent=mx(sessionHr)??'--';$('speedView').textContent=speed.toFixed(1);$('distanceView').textContent=distance.toFixed(2);$('pace').textContent=validPace(paceOverride)?paceOverride:paceFromSpeed(speed);$('phase').textContent=running?'RUNNING':'READY';$('startBtn').textContent=running?'Pause':'Start';$('lapNo').textContent=lapNumber;$('lapTime').textContent=fmtTime(lapSec);$('totalTime').textContent=fmtTime(totalSec);$('lapDistance').textContent=(distance-lapStartDistance).toFixed(2);$('lapAvg').textContent=avg(currentLapHr)??'--';$('lapMax').textContent=mx(currentLapHr)??'--';updateTrackVisual();drawChart();}
+function renderLaps(){const body=$('lapRows');if(!laps.length){body.innerHTML='<tr><td colspan="9" style="text-align:center;color:#9eb0c2">No laps yet</td></tr>';return;}body.innerHTML=laps.map(r=>`<tr><td>${r.n}</td><td>${r.t}</td><td>${r.d} km</td><td>${r.p}</td><td>${r.a||'--'}</td><td>${r.m||'--'}</td><td>${r.h||'--'}</td><td>${r.h60||'--'}</td><td>${r.dr||'--'}</td></tr>`).join('');}
+function saveSettings(){localStorage.setItem('angeloTrackLabSettings',JSON.stringify({speedInput:$('speedInput').value,paceInput:$('paceInput').value,distanceInput:$('distanceInput').value,autoLap:$('autoLap').value,trackLength:$('trackLength').value,z1:$('z1').value,z2:$('z2').value,z3:$('z3').value,z4:$('z4').value}));$('status').textContent='Settings saved.';}
+function loadSettings(){try{const s=JSON.parse(localStorage.getItem('angeloTrackLabSettings')||'{}');['speedInput','paceInput','distanceInput','autoLap','trackLength','z1','z2','z3','z4'].forEach(id=>{if(s[id]!=null)$(id).value=s[id];});}catch(e){}speed=Math.max(0,parseFloat($('speedInput').value)||0);paceOverride=$('paceInput').value.trim();distance=Math.max(0,parseFloat($('distanceInput').value)||0);}
+function manualSpeed(){speed=Math.max(0,parseFloat($('speedInput').value)||0);render();}
+function manualPace(){paceOverride=$('paceInput').value.trim();render();}
+function manualDistance(){distance=Math.max(0,parseFloat($('distanceInput').value)||0);if(lapStartDistance>distance)lapStartDistance=distance;render();}
+function jumpDistance(v){distance=Math.max(0,distance+v);$('distanceInput').value=distance.toFixed(2);render();}
+function addLap(source='manual'){if(totalSec===0&&distance===0&&!running)return;const lapDist=Math.max(0,distance-lapStartDistance);const finishHr=hr==null?'':Math.round(hr);const row={n:lapNumber,t:fmtTime(lapSec),d:lapDist.toFixed(2),p:paceFromLap(lapDist,lapSec),a:avg(currentLapHr)??'',m:mx(currentLapHr)??'',h:finishHr||'',h60:'',dr:''};laps.push(row);recoveryQueue.push({index:laps.length-1,finish:finishHr||null,due:Date.now()+60000});$('lastLap').textContent=row.t;$('lastLapPace').textContent=row.p;$('hrAtLap').textContent=finishHr||'--';lapStartDistance=distance;lapSec=0;lapNumber++;currentLapHr=[];renderLaps();render();if(source==='auto')$('status').textContent='Auto lap triggered.';}
+function updateRecovery(){const now=Date.now();recoveryQueue=recoveryQueue.filter(item=>{if(now>=item.due&&item.finish!=null&&hr!=null){const drop=item.finish-Math.round(hr);laps[item.index].h60=Math.round(hr);laps[item.index].dr=drop;$('recovery').textContent=drop;renderLaps();return false;}return true;});}
+function resetAll(){running=false;totalSec=0;lapSec=0;lapNumber=1;distance=0;lapStartDistance=0;sessionHr=[];currentLapHr=[];hrSamples=[];laps=[];recoveryQueue=[];lastFrame=null;$('distanceInput').value='0.00';$('recovery').textContent='--';$('lastLap').textContent='--';$('lastLapPace').textContent='--:--';$('hrAtLap').textContent='--';renderLaps();render();$('status').textContent='Workout reset.';}
+function animate(ts){if(lastFrame==null)lastFrame=ts;const dt=(ts-lastFrame)/1000;lastFrame=ts;if(running){distance+=speed*dt/3600;$('distanceInput').value=distance.toFixed(2);const autoLap=+$('autoLap').value||0;if(autoLap>0&&(distance-lapStartDistance)>=autoLap-1e-9)addLap('auto');}updateTrackVisual();requestAnimationFrame(animate);}
+setInterval(()=>{if(running){totalSec++;lapSec++;if(hr!=null){sessionHr.push(hr);currentLapHr.push(hr);}}updateRecovery();render();},1000);
+async function connectHR(){try{if(!navigator.bluetooth)throw new Error('Open in Chrome or Edge on desktop.');$('status').textContent='Opening Bluetooth picker…';hrDevice=await navigator.bluetooth.requestDevice({filters:[{services:['heart_rate']}],optionalServices:['heart_rate']});$('status').textContent=`Selected: ${hrDevice.name||'device'}`;hrDevice.addEventListener('gattserverdisconnected',()=>{$('hrTag').textContent='HR: disconnected';$('status').textContent='HR disconnected.';});if(hrDevice.gatt.connected)hrDevice.gatt.disconnect();const server=await hrDevice.gatt.connect();const service=await server.getPrimaryService('heart_rate');hrChar=await service.getCharacteristic('heart_rate_measurement');hrChar.addEventListener('characteristicvaluechanged',e=>{const v=e.target.value,flags=v.getUint8(0);hr=(flags&1)?v.getUint16(1,true):v.getUint8(1);hrSamples.push(hr);if(hrSamples.length>150)hrSamples.shift();$('hrTag').textContent=`HR: ${hrDevice.name||'Polar'}`;render();});await hrChar.startNotifications();$('status').textContent='Connected to heart-rate sensor.';}catch(err){$('status').textContent='Connection error: '+err.message;}}
+$('connectBtn').addEventListener('click',connectHR);$('startBtn').addEventListener('click',()=>{running=!running;$('status').textContent=running?'Workout started.':'Workout paused.';render();});$('lapBtn').addEventListener('click',()=>addLap('manual'));$('fullBtn').addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();});$('resetBtn').addEventListener('click',resetAll);$('speedInput').addEventListener('input',manualSpeed);$('paceInput').addEventListener('input',manualPace);$('distanceInput').addEventListener('input',manualDistance);$('trackLength').addEventListener('change',render);$('plus100').addEventListener('click',()=>jumpDistance(.10));$('plus400').addEventListener('click',()=>jumpDistance(.40));$('saveBtn').addEventListener('click',saveSettings);loadSettings();renderLaps();render();requestAnimationFrame(animate);
 </script>
 </body>
 </html>
